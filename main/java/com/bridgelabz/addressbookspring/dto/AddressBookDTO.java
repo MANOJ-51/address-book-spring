@@ -13,4 +13,5 @@ public class AddressBookDTO {
     private Long zipCode;
     private Long phoneNumber;
     private String emailId;
+    private String password;
 }

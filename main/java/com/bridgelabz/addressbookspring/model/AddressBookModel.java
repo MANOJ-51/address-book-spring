@@ -20,6 +20,7 @@ public class AddressBookModel {
     private Long zipCode;
     private Long phoneNumber;
     private String emailId;
+    private  String password;
 
     public AddressBookModel(AddressBookDTO addressBookDTO) {
         this.contactId = addressBookDTO.getContactId();
@@ -31,6 +32,7 @@ public class AddressBookModel {
         this.zipCode = addressBookDTO.getZipCode();
         this.phoneNumber =addressBookDTO.getPhoneNumber();
         this.emailId=addressBookDTO.getEmailId();
+        this.password=addressBookDTO.getPassword();
     }
 
     public AddressBookModel() {
