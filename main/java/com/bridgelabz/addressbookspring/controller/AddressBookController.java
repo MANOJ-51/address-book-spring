@@ -27,9 +27,9 @@ public class AddressBookController {
     }
 
     //update
-    @PutMapping("update/{id}")
-    public AddressBookModel updateContact(@RequestBody AddressBookDTO addressBookDTO,@PathVariable Long id){
-        return iAddressBookService.editContact(id,addressBookDTO);
+    @PutMapping("update{id}")
+    public AddressBookModel updateContact(@RequestParam String token,@PathVariable Long id,@RequestBody AddressBookDTO addressBookDTO){
+        return iAddressBookService.editContact(token,id,addressBookDTO);
     }
 
     //retrieve in list
@@ -39,9 +39,9 @@ public class AddressBookController {
     }
 
     //delete contact
-    @DeleteMapping("deleteContact/{id}")
-    public AddressBookModel deleteContact(@PathVariable Long id){
-        return iAddressBookService.removeContact(id);
+    @DeleteMapping("deleteContact")
+    public AddressBookModel deleteContact(String token){
+        return iAddressBookService.removeContact(token);
     }
 
     //login

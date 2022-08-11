@@ -6,8 +6,8 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "contact_details")
 @Data
+@Table(name = "contact_details")
 public class AddressBookModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +22,7 @@ public class AddressBookModel {
     private String emailId;
     private  String password;
 
-    public AddressBookModel(AddressBookDTO addressBookDTO) {
+    public AddressBookModel(AddressBookDTO addressBookDTO){
         this.contactId = addressBookDTO.getContactId();
         this.firstName = addressBookDTO.getFirstName();
         this.lastName = addressBookDTO.getLastName();

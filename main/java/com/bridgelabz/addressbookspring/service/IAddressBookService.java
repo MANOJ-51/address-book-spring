@@ -10,11 +10,11 @@ public interface IAddressBookService  {
 
     AddressBookModel addContacts(AddressBookDTO addressBookDTO);
 
-    AddressBookModel editContact(Long id, AddressBookDTO addressBookDTO);
+    AddressBookModel editContact(String token,Long id, AddressBookDTO addressBookDTO);
 
     List<AddressBookModel> getContact(String token);
 
-    AddressBookModel removeContact(Long id);
+    AddressBookModel removeContact(String token);
 
     ContactResponse loginContact(String emailId, String password);
 }

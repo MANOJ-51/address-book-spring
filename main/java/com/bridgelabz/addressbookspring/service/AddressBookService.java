@@ -23,14 +23,15 @@ public class AddressBookService implements IAddressBookService {
 
     @Override
     public AddressBookModel addContacts(AddressBookDTO addressBookDTO) {
-        AddressBookModel addressBookModel = new AddressBookModel();
+        AddressBookModel addressBookModel = new AddressBookModel(addressBookDTO);
         iAddressBookRepository.save(addressBookModel);
         return addressBookModel;
     }
 
     @Override
-    public AddressBookModel editContact(Long id, AddressBookDTO addressBookDTO) {
-        Optional<AddressBookModel> isContactPresent = iAddressBookRepository.findById(id);
+    public AddressBookModel editContact(String token ,Long id, AddressBookDTO addressBookDTO) {
+        Long contactId = tokenUtil.decodeToken(token);
+        Optional<AddressBookModel> isContactPresent = iAddressBookRepository.findById(contactId);
         if (isContactPresent.isPresent()){
             isContactPresent.get().setFirstName(addressBookDTO.getFirstName());
             isContactPresent.get().setLastName(addressBookDTO.getLastName());
@@ -40,6 +41,8 @@ public class AddressBookService implements IAddressBookService {
             isContactPresent.get().setZipCode(addressBookDTO.getZipCode());
             isContactPresent.get().setPhoneNumber(addressBookDTO.getPhoneNumber());
             isContactPresent.get().setEmailId(addressBookDTO.getEmailId());
+            isContactPresent.get().setPassword(addressBookDTO.getPassword());
+            iAddressBookRepository.save(isContactPresent.get());
             return isContactPresent.get();
         }
         throw new ContactNotFoundException(400,"Contact Not Found");
@@ -60,8 +63,9 @@ public class AddressBookService implements IAddressBookService {
         throw new ContactNotFoundException(400,"Token is not Correct");
     }
     @Override
-    public AddressBookModel removeContact(Long id) {
-        Optional<AddressBookModel> isContactPresent = iAddressBookRepository.findById(id);
+    public AddressBookModel removeContact(String token){
+        Long contactId = tokenUtil.decodeToken(token);
+        Optional<AddressBookModel> isContactPresent = iAddressBookRepository.findById(contactId);
         if (isContactPresent.isPresent()){
             iAddressBookRepository.delete(isContactPresent.get());
             return isContactPresent.get();
@@ -75,7 +79,8 @@ public class AddressBookService implements IAddressBookService {
         Optional<AddressBookModel> isContactPresent = iAddressBookRepository.findByEmailId(emailId);
         if (isContactPresent.isPresent()){
             if (isContactPresent.get().getPassword().equals(password)){
-                return new ContactResponse(200,"Login Successfull",tokenUtil);
+                String token = tokenUtil.createToken(isContactPresent.get().getContactId());
+                return new ContactResponse(200,"Login Successfull",token);
             }else {
                 throw new ContactNotFoundException(400,"Contact Not Found");
             }
