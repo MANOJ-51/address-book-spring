@@ -23,7 +23,6 @@ public class AddressBookModel {
     private  String password;
 
     public AddressBookModel(AddressBookDTO addressBookDTO){
-        this.contactId = addressBookDTO.getContactId();
         this.firstName = addressBookDTO.getFirstName();
         this.lastName = addressBookDTO.getLastName();
         this.address = addressBookDTO.getAddress();

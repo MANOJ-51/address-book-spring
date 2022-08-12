@@ -20,11 +20,16 @@ public class AddressBookService implements IAddressBookService {
 
     @Autowired
     TokenUtil tokenUtil;
+    @Autowired
+    MailService mailService;
 
     @Override
     public AddressBookModel addContacts(AddressBookDTO addressBookDTO) {
         AddressBookModel addressBookModel = new AddressBookModel(addressBookDTO);
         iAddressBookRepository.save(addressBookModel);
+        String body="Contact is added successfully with contactId :-"+addressBookModel.getContactId();
+        String subject="Contact Registration Successful";
+        mailService.send(addressBookModel.getEmailId(),subject,body);
         return addressBookModel;
     }
 
@@ -43,6 +48,9 @@ public class AddressBookService implements IAddressBookService {
             isContactPresent.get().setEmailId(addressBookDTO.getEmailId());
             isContactPresent.get().setPassword(addressBookDTO.getPassword());
             iAddressBookRepository.save(isContactPresent.get());
+            String body="Contact is updated successfully with contactId :-"+isContactPresent.get().getContactId();
+            String subject="Contact update Successful";
+            mailService.send(isContactPresent.get().getEmailId(),subject,body);
             return isContactPresent.get();
         }
         throw new ContactNotFoundException(400,"Contact Not Found");
@@ -68,6 +76,9 @@ public class AddressBookService implements IAddressBookService {
         Optional<AddressBookModel> isContactPresent = iAddressBookRepository.findById(contactId);
         if (isContactPresent.isPresent()){
             iAddressBookRepository.delete(isContactPresent.get());
+            String body="Contact is delete successfully with contactId :-"+isContactPresent.get().getContactId();
+            String subject="Contact Deleted Successful";
+            mailService.send(isContactPresent.get().getEmailId(),subject,body);
             return isContactPresent.get();
         }else {
             throw new ContactNotFoundException(400,"Contact Not Found");
