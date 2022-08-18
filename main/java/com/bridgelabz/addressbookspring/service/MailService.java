@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbookspring.service;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
@@ -11,6 +12,7 @@ import java.util.Properties;
 import javax.mail.Transport;
 
 @Component
+@Slf4j
 public class MailService {
     public static void send(String toEmail, String subject, String body)
     {
@@ -49,7 +51,8 @@ public class MailService {
             msg.setSentDate(new Date());
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
             Transport.send(msg);
-            System.out.println("Email Sent Successfully........."); }
+            log.info("Email Sent Successfully.........");
+        }
         catch (Exception e)
         {
             e.printStackTrace();

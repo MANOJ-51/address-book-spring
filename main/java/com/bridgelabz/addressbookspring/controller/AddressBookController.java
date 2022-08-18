@@ -7,6 +7,7 @@ import com.bridgelabz.addressbookspring.util.ContactResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,13 +23,13 @@ public class AddressBookController {
 
     //create
     @PostMapping("createContact")
-    public AddressBookModel createContact(@RequestBody AddressBookDTO addressBookDTO){
+    public AddressBookModel createContact( @Valid @RequestBody AddressBookDTO addressBookDTO){
         return iAddressBookService.addContacts(addressBookDTO);
     }
 
     //update
     @PutMapping("update{id}")
-    public AddressBookModel updateContact(@RequestParam String token,@PathVariable Long id,@RequestBody AddressBookDTO addressBookDTO){
+    public AddressBookModel updateContact(@Valid @RequestParam String token,@PathVariable Long id,@RequestBody AddressBookDTO addressBookDTO){
         return iAddressBookService.editContact(token,id,addressBookDTO);
     }
 
@@ -48,6 +49,12 @@ public class AddressBookController {
     @PostMapping("loginContact")
     public ContactResponse login (@RequestParam String emailId ,@RequestParam String password){
         return iAddressBookService.loginContact(emailId,password);
+    }
+
+    //find by city
+    @GetMapping("/findByCity")
+    public List<AddressBookModel> findByCity(@RequestParam String city){
+        return iAddressBookService.findWithCity(city);
     }
 
 }

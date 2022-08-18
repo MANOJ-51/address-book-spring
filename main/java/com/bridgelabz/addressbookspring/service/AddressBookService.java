@@ -98,4 +98,13 @@ public class AddressBookService implements IAddressBookService {
         }
         throw new ContactNotFoundException(400,"no data found");
     }
+
+    @Override
+    public List<AddressBookModel> findWithCity(String city) {
+        List<AddressBookModel> getCites = iAddressBookRepository.findByCityContaining(city);
+        if (getCites.size()>0){
+            return getCites;
+        }
+        throw new ContactNotFoundException(400,"No Cities Found");
+    }
 }

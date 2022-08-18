@@ -17,4 +17,6 @@ public interface IAddressBookService  {
     AddressBookModel removeContact(String token);
 
     ContactResponse loginContact(String emailId, String password);
+
+    List<AddressBookModel> findWithCity(String city);
 }
